@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.2017
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataExtractor", "BinanceDataExtractor\DataExtractor.csproj", "{94A99BF1-F2B3-473D-BC18-129127E3D3CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataExtractor", "DataExtractor\DataExtractor.csproj", "{94A99BF1-F2B3-473D-BC18-129127E3D3CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataManipulator", "DataManipulator\DataManipulator.csproj", "{E26BC8C1-239F-47C5-BE43-A58601167AFA}"
 EndProject
