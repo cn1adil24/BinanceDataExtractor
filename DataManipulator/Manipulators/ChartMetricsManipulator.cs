@@ -31,7 +31,7 @@ namespace DataManipulator
             {
                 _Indicators.Add(new EMACalculator(12, "EMA12"));
                 _Indicators.Add(new EMACalculator(26, "EMA26"));
-                _Indicators.Add(new RSICalculator(14, "RSI"));
+                _Indicators.Add(new RSICalculator(14, "RSI", true));
             }
         }
 

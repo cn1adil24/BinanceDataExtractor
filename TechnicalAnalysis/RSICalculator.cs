@@ -10,6 +10,8 @@ namespace TechnicalAnalysis
     {
         private bool _isInitialized;
         private double _previousPoint;
+        private double _previousAvgGain = -1;
+        private double _previousAvgLoss = -1;
         private List<double> _PreviousGains;
         private List<double> _PreviousLosses;
 
@@ -26,11 +28,13 @@ namespace TechnicalAnalysis
         public double Length { get; set; }
         public double RSI { get; private set; }
         public double Tolerance { get; private set; }
+        public bool ApplySmoothing { get; private set; }
 
-        public RSICalculator(int length, string name = "RSI")
+        public RSICalculator(int length, string name = "RSI", bool applySmoothing = false)
         {
             Name = name;
             Length = length;
+            ApplySmoothing = applySmoothing;
             _PreviousGains = new List<double>();
             _PreviousLosses = new List<double>();
             Tolerance = 10e-20;
@@ -38,7 +42,7 @@ namespace TechnicalAnalysis
 
         public void AddDataPoint(double dataPoint)
         {
-            double gain, loss, avgGain, avgLoss;
+            double gain, loss, avgGain, avgLoss, difference;
 
             if (_isInitialized == false)
             {
@@ -48,23 +52,29 @@ namespace TechnicalAnalysis
                 return;
             }
 
-            var difference = dataPoint - _previousPoint;
-            gain = difference > 0 ? difference : 0;
-            loss = difference < 0 ? -difference : 0;
+            CalculateGainLoss();
+            AddPreviousGainLoss(gain, loss);
 
             if (_PreviousGains.Count < Length)
             {
-                _PreviousGains.Add(gain);
-                _PreviousLosses.Add(loss);
-
                 RSI = 0;
                 return;
             }
             else
             {
-                avgGain = _PreviousGains.Average();
-                avgLoss = _PreviousLosses.Average();
+                if (ApplySmoothing && _previousAvgGain >= 0)
+                {
+                    avgGain = (_previousAvgGain * (Length - 1) + gain) / Length;
+                    avgLoss = (_previousAvgLoss * (Length - 1) + loss) / Length;
+                }
+                else
+                {
+                    avgGain = _PreviousGains.Average();
+                    avgLoss = _PreviousLosses.Average();
+                }
 
+                _previousAvgGain = avgGain;
+                _previousAvgLoss = avgLoss;
                 UpdateList(_PreviousGains, gain);
                 UpdateList(_PreviousLosses, loss);
             }
@@ -84,42 +94,29 @@ namespace TechnicalAnalysis
             var relativeStrength = avgGain / avgLoss;
 
             RSI = 100.0 - (100.0 / (1 + relativeStrength));
-            _previousPoint = dataPoint;
+
+            void CalculateGainLoss()
+            {
+                difference = dataPoint - _previousPoint;
+                gain = difference > 0 ? difference : 0;
+                loss = difference < 0 ? -difference : 0;
+                _previousPoint = dataPoint;
+            }
+        }
+
+        private void AddPreviousGainLoss(double gain, double loss)
+        {
+            if (_PreviousGains.Count < Length && _PreviousLosses.Count < Length)
+            {
+                _PreviousGains.Add(gain);
+                _PreviousLosses.Add(loss);
+            }
         }
 
         private void UpdateList(List<double> listToUpdate, double dataPoint)
         {
             listToUpdate.RemoveAt(0);
             listToUpdate.Add(dataPoint);
-        }
-
-        // TestFunction
-
-        public double TestRSICalculator(IEnumerable<double> closePrices)
-        {
-            var prices = closePrices as double[] ?? closePrices.ToArray();
-
-            double sumGain = 0;
-            double sumLoss = 0;
-            for (int i = 1; i < prices.Length; i++)
-            {
-                var difference = prices[i] - prices[i - 1];
-                if (difference >= 0)
-                {
-                    sumGain += difference;
-                }
-                else
-                {
-                    sumLoss -= difference;
-                }
-            }
-
-            if (sumGain == 0) return 0;
-            if (Math.Abs(sumLoss) < Tolerance) return 100;
-
-            var relativeStrength = sumGain / sumLoss;
-
-            return 100.0 - (100.0 / (1 + relativeStrength));
         }
     }
 }
