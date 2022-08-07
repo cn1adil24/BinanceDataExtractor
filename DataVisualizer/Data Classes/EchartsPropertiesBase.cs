@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,7 +13,9 @@ namespace DataVisualizer
         {
             if (property != null)
             {
-                if (CanEnquote(property))
+                if (IsArray(property))
+                    return $"   {propertyName}: [{string.Join(",", ConvertToArray(property as IEnumerable))}],\n";
+                else if (CanEnquote(property))
                     return $"   {propertyName}: '{property}',\n";
                 else
                     return $"   {propertyName}: {property},\n";
@@ -25,5 +28,20 @@ namespace DataVisualizer
         {
             return property.GetType() == typeof(string) || property.GetType().IsEnum;
         }
+
+        private object[] ConvertToArray(IEnumerable array)
+        {
+            List<object> elements = new List<object>();
+            foreach (object element in array)
+            {
+                if (CanEnquote(element))
+                    elements.Add($"'{element}'");
+                else
+                    elements.Add(element);
+            }
+            return elements.ToArray();
+        }
+
+        private bool IsArray(object property) => property.GetType().IsArray;
     }
 }

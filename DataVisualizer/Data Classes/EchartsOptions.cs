@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DataVisualizer
 {
-    class EchartsOptions
+    class EchartsOptions : EchartsPropertyBase
     {
         public EchartsTitle[] title { get; set; }
 
@@ -22,31 +22,22 @@ namespace DataVisualizer
 
         public EchartsGrid[] grid { get; set; }
 
+        public string[] color { get; set; }
+
         public EchartsSeries[] series { get; set; }
 
         public override string ToString()
         {
             return $"option = {{\n" +
-                   $"   {nameof(title)}: [" +
-                   $"       {string.Join(",", title.AsEnumerable())}" +
-                   $"   ],\n" +
-                   $"   {nameof(tooltip)}: {tooltip},\n" +
-                   $"   {nameof(legend)}: {legend},\n" +
-                   $"   {nameof(dataZoom)}: [" +
-                   $"       {string.Join(",", dataZoom.AsEnumerable())}" +
-                   $"   ],\n" +
-                   $"   {nameof(xAxis)}: [" +
-                   $"       {string.Join(",", xAxis.AsEnumerable())}" +
-                   $"   ],\n" +
-                   $"   {nameof(yAxis)}: [" +
-                   $"       {string.Join(",", yAxis.AsEnumerable())}" +
-                   $"   ],\n" +
-                   $"   {nameof(grid)}: [" +
-                   $"       {string.Join(",", grid.AsEnumerable())}" +
-                   $"   ],\n" +
-                   $"   {nameof(series)}: [" +
-                   $"       {string.Join(",", series.AsEnumerable())}" +
-                   $"   ]\n" +
+                   AddProperty(title, nameof(title)) +
+                   AddProperty(tooltip, nameof(tooltip)) +
+                   AddProperty(legend, nameof(legend)) +
+                   AddProperty(dataZoom, nameof(dataZoom)) +
+                   AddProperty(xAxis, nameof(xAxis)) +
+                   AddProperty(yAxis, nameof(yAxis)) +
+                   AddProperty(grid, nameof(grid)) +
+                   AddProperty(color, nameof(color)) +
+                   AddProperty(series, nameof(series)) +
                    $"}};\n";
         }
     }

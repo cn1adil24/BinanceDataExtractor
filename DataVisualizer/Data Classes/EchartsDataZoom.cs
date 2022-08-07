@@ -16,7 +16,7 @@ namespace DataVisualizer
         {
             return $"{{\n" +
                    AddProperty(type, nameof(type)) +
-                   $"   {nameof(xAxisIndex)}: [{string.Join(",", xAxisIndex.AsEnumerable())}]" +
+                   AddProperty(xAxisIndex, nameof(xAxisIndex)) +
                    $"}}\n";
         }
     }

@@ -95,6 +95,7 @@ namespace DataVisualizer
                     new EchartsGrid() { bottom = "60%" },
                     new EchartsGrid() { top = "60%" }
                 },
+                color = new string [] { "#0000ff", "#ff0000", "#fac858" },
                 series = new EchartsSeries[]
                 {
                     new EchartsSeries()
