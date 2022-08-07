@@ -50,6 +50,7 @@
     <Compile Include="Data Classes\EchartsBoolean.cs" />
     <Compile Include="Data Classes\EchartsDataZoom.cs" />
     <Compile Include="Data Classes\EchartsGrid.cs" />
+    <Compile Include="Data Classes\EchartsLegend.cs" />
     <Compile Include="Data Classes\EchartsPropertiesBase.cs" />
     <Compile Include="Data Classes\EchartsSeries.cs" />
     <Compile Include="Data Classes\EchartsTitle.cs" />

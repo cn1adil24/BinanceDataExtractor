@@ -18,4 +18,10 @@ namespace DataVisualizer
         scatter,
         bar
     }
+
+    enum EchartsDataZoomType
+    {
+        slider,
+        inside
+    }
 }

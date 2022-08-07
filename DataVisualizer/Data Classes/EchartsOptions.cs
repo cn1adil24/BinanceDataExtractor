@@ -12,7 +12,9 @@ namespace DataVisualizer
 
         public EchartsTooltip tooltip { get; set; }
 
-        public EchartsDataZoom dataZoom { get; set; }
+        public EchartsLegend legend { get; set; }
+
+        public EchartsDataZoom[] dataZoom { get; set; }
 
         public EchartsAxis[] xAxis { get; set; }
 
@@ -29,7 +31,10 @@ namespace DataVisualizer
                    $"       {string.Join(",", title.AsEnumerable())}" +
                    $"   ],\n" +
                    $"   {nameof(tooltip)}: {tooltip},\n" +
-                   $"   {nameof(dataZoom)}: {dataZoom},\n" +
+                   $"   {nameof(legend)}: {legend},\n" +
+                   $"   {nameof(dataZoom)}: [" +
+                   $"       {string.Join(",", dataZoom.AsEnumerable())}" +
+                   $"   ],\n" +
                    $"   {nameof(xAxis)}: [" +
                    $"       {string.Join(",", xAxis.AsEnumerable())}" +
                    $"   ],\n" +

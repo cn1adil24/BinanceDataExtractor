@@ -74,19 +74,21 @@ namespace DataVisualizer
                     new EchartsTitle() { top = "55%", left = "center", text = "Relative Strength Index (RSI)" }
                 },
                 tooltip = new EchartsTooltip() { trigger = EchartsAxisTrigger.axis },
+                legend = new EchartsLegend() { top = "3%" },
                 xAxis = new EchartsAxis[]
                 {
-                    new EchartsAxis() { data = new EchartsVariable("dateList") },
-                    new EchartsAxis() { data = new EchartsVariable("dateList"), gridIndex = 1 }
+                    new EchartsAxis() { data = new EchartsVariable("dateList"), scale = new EchartsBoolean(true) },
+                    new EchartsAxis() { data = new EchartsVariable("dateList"), gridIndex = 1, scale = new EchartsBoolean(true) }
                 },
-                dataZoom = new EchartsDataZoom
+                dataZoom = new EchartsDataZoom[]
                 {
-                    xAxisIndex = new int[2] { 0, 1 }
+                    new EchartsDataZoom() { xAxisIndex = new int[2] { 0, 1 }, type = EchartsDataZoomType.inside },
+                    new EchartsDataZoom() { xAxisIndex = new int[2] { 0, 1 }, type = EchartsDataZoomType.slider }
                 },
                 yAxis = new EchartsAxis[]
                 {
-                    new EchartsAxis(),
-                    new EchartsAxis() { gridIndex = 1 }
+                    new EchartsAxis() { scale = new EchartsBoolean(true) },
+                    new EchartsAxis() { gridIndex = 1, scale = new EchartsBoolean(true) }
                 },
                 grid = new EchartsGrid[]
                 {
@@ -98,6 +100,7 @@ namespace DataVisualizer
                     new EchartsSeries()
                     {
                         type = EchartsSeriesType.line,
+                        name = "EMA12",
                         showSymbol = new EchartsBoolean(false),
                         data = new EchartsVariable("EMA12List"),
                         connectNulls = new EchartsBoolean(true),
@@ -106,6 +109,7 @@ namespace DataVisualizer
                     new EchartsSeries()
                     {
                         type = EchartsSeriesType.line,
+                        name = "EMA26",
                         showSymbol = new EchartsBoolean(false),
                         data = new EchartsVariable("EMA26List"),
                         connectNulls = new EchartsBoolean(true),

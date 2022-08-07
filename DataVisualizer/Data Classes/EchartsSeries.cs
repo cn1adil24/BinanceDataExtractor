@@ -10,6 +10,8 @@ namespace DataVisualizer
     {
         public EchartsSeriesType type { get; set; }
 
+        public string name { get; set; }
+
         public EchartsBoolean showSymbol { get; set; }
 
         public EchartsVariable data { get; set; }
@@ -26,6 +28,7 @@ namespace DataVisualizer
         {
             return $"{{\n" +
                    AddProperty(type, nameof(type)) +
+                   AddProperty(name, nameof(name)) +
                    AddProperty(showSymbol, nameof(showSymbol)) +
                    AddProperty(data, nameof(data)) +
                    AddProperty(connectNulls, nameof(connectNulls)) +

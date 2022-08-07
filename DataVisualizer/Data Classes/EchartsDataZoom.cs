@@ -10,7 +10,7 @@ namespace DataVisualizer
     {
         public int[] xAxisIndex { get; set; }
 
-        public string type { get; set; } = "slider";
+        public EchartsDataZoomType type { get; set; }
 
         public override string ToString()
         {
