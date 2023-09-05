@@ -30,7 +30,7 @@ namespace DataVisualizer
                 _CurrentForm = new EchartsForm(DelimitedHandler);
                 _CurrentForm.Show();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
             }

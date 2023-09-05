@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataManipulator
 {
@@ -18,7 +14,7 @@ namespace DataManipulator
                 dataPreparator.Perform();
                 WriteMessage("Data Preparation Successfully done");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 WriteMessage(ex.Message);
             }

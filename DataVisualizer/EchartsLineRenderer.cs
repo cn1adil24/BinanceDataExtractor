@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace DataVisualizer
 {
@@ -95,7 +91,7 @@ namespace DataVisualizer
                     new EchartsGrid() { bottom = "60%" },
                     new EchartsGrid() { top = "60%" }
                 },
-                color = new string [] { "#0000ff", "#ff0000", "#fac858" },
+                color = new string[] { "#0000ff", "#ff0000", "#fac858" },
                 series = new EchartsSeries[]
                 {
                     new EchartsSeries()
