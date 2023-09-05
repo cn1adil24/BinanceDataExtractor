@@ -20,7 +20,7 @@ namespace DataVisualizer
             checkBoxReadBottom.CheckedChanged += CheckBoxReadReverse_CheckedChanged;
         }
 
-        protected int RecordCount => (int) numericUpDownRecordCount.Value;
+        protected int RecordCount => (int)numericUpDownRecordCount.Value;
 
         protected bool ReadLast => checkBoxReadBottom.Checked;
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TechnicalAnalysis
+﻿namespace TechnicalAnalysis
 {
     public class EMACalculator : ITechnicalIndicator
     {
@@ -46,7 +40,7 @@ namespace TechnicalAnalysis
 
             Average = ((dataPoint - _previousAverage) * _weightingMultiplier) + _previousAverage;
             Slope = Average - _previousAverage;
-            
+
             _previousAverage = Average;
         }
     }

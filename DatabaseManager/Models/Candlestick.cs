@@ -5,7 +5,7 @@ namespace DatabaseManager.Models
 {
     [Table("Candlestick")]
     public class Candlestick
-    {   
+    {
         [Key]
         public int Id { get; set; }
 

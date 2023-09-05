@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net;
 using System.IO;
 using System.IO.Compression;
+using System.Net;
 
 namespace BinanceDataExtractor
 {
@@ -79,7 +75,7 @@ namespace BinanceDataExtractor
             WriteMessage($"Sending request to download {fileToDownload}");
             var request = WebRequest.Create(url);
             request.Method = "GET";
-            
+
             var webResponse = request.GetResponse();
 
             if (webResponse.ContentType != "application/zip")
@@ -107,7 +103,7 @@ namespace BinanceDataExtractor
                 webStream.Close();
             }
         }
-        
+
         private void ExtractCsv(string zipFilePath, out string filePath)
         {
             WriteMessage($"Extracting ZIP file to: {ExtractionDirectory}");

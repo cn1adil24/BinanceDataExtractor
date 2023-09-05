@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TechnicalAnalysis;
 
 namespace DataManipulator
@@ -48,13 +46,13 @@ namespace DataManipulator
             int iterator, aggregateIterations;
             iterator = aggregateIterations = GetAggregateIterations();
             double last = 0;
-            
+
             do
             {
                 last = double.Parse(enumerator[iterator]);
 
                 indicator.AddDataPoint(last);
-                
+
                 values.AddRange(GenerateResultantList());
 
                 iterator += aggregateIterations;
