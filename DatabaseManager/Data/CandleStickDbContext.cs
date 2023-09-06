@@ -3,7 +3,7 @@ using System.Data.Entity;
 
 namespace DatabaseManager.Data
 {
-    internal class CandleStickDbContext : DbContext
+    public class CandleStickDbContext : DbContext, ICandleStickDbContext
     {
         public CandleStickDbContext() : base("BinanceDbConnectionString")
         {

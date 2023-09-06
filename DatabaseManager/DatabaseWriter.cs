@@ -7,18 +7,22 @@ namespace DatabaseManager
 {
     public class DatabaseWriter
     {
+        private readonly ICandleStickDbContext _dbContext;
+
+        public DatabaseWriter(ICandleStickDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         public void WriteRecord(Dictionary<string, string> record)
         {
             var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
 
             IMapper mapper = config.CreateMapper();
 
-            using (var dbContext = new CandleStickDbContext())
-            {
-                var candleStickRecord = mapper.Map<Dictionary<string, string>, Candlestick>(record);
-                dbContext.CandleStickData.Add(candleStickRecord);
-                dbContext.SaveChanges();
-            }
+            var candleStickRecord = mapper.Map<Dictionary<string, string>, Candlestick>(record);
+            _dbContext.CandleStickData.Add(candleStickRecord);
+            _dbContext.SaveChanges();
         }
     }
 }

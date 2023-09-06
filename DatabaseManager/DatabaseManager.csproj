@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="DatabaseWriter.cs" />
     <Compile Include="Data\CandleStickDbContext.cs" />
+    <Compile Include="Data\ICandleStickDbContext.cs" />
     <Compile Include="MappingProfile.cs" />
     <Compile Include="Models\Candlestick.cs" />
     <Compile Include="Program.cs" />
