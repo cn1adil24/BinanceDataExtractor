@@ -16,7 +16,7 @@ namespace DatabaseManager
 
         public void WriteRecord(Dictionary<string, string> record)
         {
-            var config = new MapperConfiguration(cfg => cfg.AddProfile<MappingProfile>());
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<CandleStickMappingProfile>());
 
             IMapper mapper = config.CreateMapper();
 

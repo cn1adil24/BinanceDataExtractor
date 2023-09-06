@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using DatabaseManager.Models;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace DatabaseManager
 {
-    public class MappingProfile : Profile
+    public class CandleStickMappingProfile : Profile
     {
-        public MappingProfile()
+        public CandleStickMappingProfile()
         {
             CreateMap<Dictionary<string, string>, Candlestick>()
                 .ForMember(dest => dest.Id, opt => opt.Ignore())
@@ -22,8 +21,7 @@ namespace DatabaseManager
                 .ForMember(dest => dest.Count, opt => opt.MapFrom(src => src["Count"]))
                 .ForMember(dest => dest.TakerBuyVolume, opt => opt.MapFrom(src => src["TakerBuyVolume"]))
                 .ForMember(dest => dest.TakerBuyQuoteVolume, opt => opt.MapFrom(src => src["TakerBuyQuoteVolume"]))
-                .ForMember(dest => dest.Ignore, opt => opt.MapFrom(src => src["Ignore"]))
-                ;
+                .ForMember(dest => dest.Ignore, opt => opt.MapFrom(src => src["Ignore"]));
         }
     }
 }
