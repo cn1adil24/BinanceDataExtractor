@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiExtractor.cs" />
+    <Compile Include="DelimitedReader.cs" />
     <Compile Include="ExtractionRangeInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
