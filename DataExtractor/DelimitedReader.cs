@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace DataExtractor
 {
@@ -14,16 +13,17 @@ namespace DataExtractor
 
         private const string HeaderPlaceHolder = "Field_{0}";
 
-        public DelimitedReader(string filePath, char delimiter = ',', bool containsHeaders = true)
+        public DelimitedReader(string filePath, char delimiter = ',', bool containsHeaders = true, string[] providedHeaders = null)
         {
             _reader = new StreamReader(filePath);
             _delimiter = delimiter;
 
             if (containsHeaders)
                 ExtractHeaders();
+            else if (providedHeaders != null)
+                UseProvidedHeaders();
             else
                 AddHeaders();
-
 
             void ExtractHeaders()
             {
@@ -32,6 +32,12 @@ namespace DataExtractor
                 {
                     _headers = headerLine.Split(delimiter);
                 }
+            }
+
+            void UseProvidedHeaders()
+            {
+                _headers = new string[providedHeaders.Length];
+                Array.Copy(providedHeaders, _headers, _headers.Length);
             }
 
             void AddHeaders()

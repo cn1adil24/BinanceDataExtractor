@@ -1,31 +1,26 @@
 ﻿using DatabaseManager;
 using DatabaseManager.Data;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataExtractor.Utility
 {
     internal class CsvToDBWriter
     {
         private readonly DelimitedReader _reader;
-        private readonly DatabaseWriter _writer;
+        private DatabaseWriter _writer;
 
-        public CsvToDBWriter(string csvFilePath, bool containsHeaders = false)
+        public CsvToDBWriter(string csvFilePath, bool containsHeaders = false, string[] providedHeaders = null)
         {
-            _reader = new DelimitedReader(csvFilePath, containsHeaders: containsHeaders);
-            _writer = new DatabaseWriter(new CandleStickDbContext());
+            _reader = new DelimitedReader(csvFilePath, containsHeaders: containsHeaders, providedHeaders: providedHeaders);
         }
 
         public void ReadAndWrite()
         {
-            foreach (var record in _reader.ReadAll())
-                _writer.WriteRecord(record);
-
-            _reader.Dispose();
+            using (var dbContext = new CandleStickDbContext())
+            {
+                _writer = new DatabaseWriter(dbContext);
+                _writer.WriteAll(_reader.ReadAll());
+                _reader.Dispose();
+            }
         }
     }
 }

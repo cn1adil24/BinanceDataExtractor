@@ -1,9 +1,6 @@
 ﻿using DataExtractor;
 using DataExtractor.Utility;
 using System;
-using System.IO;
-using System.IO.Compression;
-using System.Net;
 
 namespace BinanceDataExtractor
 {
@@ -12,6 +9,10 @@ namespace BinanceDataExtractor
         private readonly string ExtractionDirectory;
         private readonly string Pair = "UNIUSDT";
         private readonly string TimeFrame = "5m";
+        private readonly string[] Headers = {
+            "OpenTime", "Open", "High", "Low", "Close", "Volume", "CloseTime",
+            "QuoteVolume", "Count", "TakerBuyVolume", "TakerBuyQuoteVolume", "Ignore"
+        };
 
         public ApiDataExtractor()
         {
@@ -64,7 +65,10 @@ namespace BinanceDataExtractor
 
         private void WriteToDB(string csvFilePath)
         {
-            var writer = new CsvToDBWriter(csvFilePath);
+            if (string.IsNullOrEmpty(csvFilePath))
+                return;
+
+            var writer = new CsvToDBWriter(csvFilePath, false, Headers);
             writer.ReadAndWrite();
         }
 

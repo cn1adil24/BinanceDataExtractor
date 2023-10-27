@@ -24,5 +24,22 @@ namespace DatabaseManager
             _dbContext.CandleStickData.Add(candleStickRecord);
             _dbContext.SaveChanges();
         }
+
+        public void WriteAll(IEnumerable<Dictionary<string, string>> records)
+        {
+            var candleStickList = new List<Candlestick>();
+
+            var config = new MapperConfiguration(cfg => cfg.AddProfile<CandleStickMappingProfile>());
+            IMapper mapper = config.CreateMapper();
+
+            foreach (var record in records)
+            {
+                var candleStickRecord = mapper.Map<Dictionary<string, string>, Candlestick>(record);
+                candleStickList.Add(candleStickRecord);
+            }
+
+            _dbContext.CandleStickData.AddRange(candleStickList);
+            _dbContext.SaveChanges();
+        }
     }
 }
