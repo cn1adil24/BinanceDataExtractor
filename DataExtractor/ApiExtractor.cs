@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DataExtractor;
+using DataExtractor.Utility;
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -7,15 +9,9 @@ namespace BinanceDataExtractor
 {
     class ApiDataExtractor
     {
-        private readonly string BaseURL = "https://data.binance.vision/data/spot/monthly/klines/{0}/{1}/{2}"; // {pair}/{timeframe}/{filename}
-        private readonly string FileToDownload = "{0}-{1}-{2}-{3}.zip";  // {pair}-{timeframe}-{year}-{month}
-
         private readonly string ExtractionDirectory;
         private readonly string Pair = "UNIUSDT";
         private readonly string TimeFrame = "5m";
-
-        private const string ResultCsvPath = "C:\\Binance\\result.csv";
-        private const string BackSlash = "\\";
 
         public ApiDataExtractor()
         {
@@ -47,8 +43,8 @@ namespace BinanceDataExtractor
                     try
                     {
                         WriteMessage("\n============================================================");
-                        var csvFileDownloaded = HandleRequest(requestInfo);
-                        File.AppendAllText(ResultCsvPath, File.ReadAllText(csvFileDownloaded));
+                        HandleRequest(requestInfo, out string csvFileDownloaded);
+                        WriteToDB(csvFileDownloaded);
                         WriteMessage("\n============================================================");
                     }
                     catch (Exception ex)
@@ -60,70 +56,36 @@ namespace BinanceDataExtractor
 
         }
 
-        private string HandleRequest(RequestInfo requestInfo)
+        private void HandleRequest(RequestInfo requestInfo, out string filePath)
         {
             DownloadZip(requestInfo, out string zipFilePath);
-            ExtractCsv(zipFilePath, out string filePath);
-            return filePath;
+            ExtractCsv(zipFilePath, out filePath);
+        }
+
+        private void WriteToDB(string csvFilePath)
+        {
+            var writer = new CsvToDBWriter(csvFilePath);
+            writer.ReadAndWrite();
         }
 
         private void DownloadZip(RequestInfo requestInfo, out string zipFilePath)
         {
-            var fileToDownload = GetDownloadFileName(requestInfo);
-            var url = string.Format(BaseURL, requestInfo.Pair, requestInfo.TimeFrame, fileToDownload);
-
-            WriteMessage($"Sending request to download {fileToDownload}");
-            var request = WebRequest.Create(url);
-            request.Method = "GET";
-
-            var webResponse = request.GetResponse();
-
-            if (webResponse.ContentType != "application/zip")
-                throw new Exception($"Failed to download file: {fileToDownload}");
-
-            var webStream = webResponse.GetResponseStream();
-            zipFilePath = WriteToZipFile();
-
-            CloseResources();
-
-            string WriteToZipFile()
-            {
-                var tempZipFileName = fileToDownload.Split('.')[0];
-                var zipFileToWrite = Path.GetTempPath() + $"{tempZipFileName}.zip";
-                using (var fs = File.OpenWrite(zipFileToWrite))
-                {
-                    webStream.CopyTo(fs);
-                }
-                return zipFileToWrite;
-            }
-
-            void CloseResources()
-            {
-                webResponse.Close();
-                webStream.Close();
-            }
+            var fileDownloader = new BinanceFileDownloader();
+            fileDownloader.ProgressEvent += ProgressEvent;
+            fileDownloader.DownloadFile(requestInfo, out zipFilePath);
         }
 
         private void ExtractCsv(string zipFilePath, out string filePath)
         {
-            WriteMessage($"Extracting ZIP file to: {ExtractionDirectory}");
-            ExtractZipFile();
-            DeleteZipFile();
-            filePath = GetExtractedCsvPath();
-            WriteMessage($"CSV file downloaded to location: {filePath}");
-
-            void ExtractZipFile() => ZipFile.ExtractToDirectory(zipFilePath, ExtractionDirectory);
-
-            void DeleteZipFile() => File.Delete(zipFilePath);
-
-            string GetExtractedCsvPath()
-            {
-                var fileNameWithoutExtension = Path.GetFileNameWithoutExtension(zipFilePath);
-                return ExtractionDirectory + BackSlash + fileNameWithoutExtension + ".csv";
-            }
+            var extractor = new ZipExtractor(ExtractionDirectory);
+            extractor.ProgressEvent += ProgressEvent; ;
+            extractor.ExtractCsv(zipFilePath, out filePath);
         }
 
-        private string GetDownloadFileName(RequestInfo requestInfo) => string.Format(FileToDownload, requestInfo.Pair, requestInfo.TimeFrame, requestInfo.Year, requestInfo.MonthFormatted);
+        private void ProgressEvent(object sender, string e)
+        {
+            WriteMessage(e);
+        }
 
         private void WriteMessage(string message) => Console.WriteLine(message);
     }

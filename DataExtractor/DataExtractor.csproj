@@ -64,10 +64,19 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestInfo.cs" />
+    <Compile Include="Utility\BinanceFileDownloader.cs" />
+    <Compile Include="Utility\CsvToDBWriter.cs" />
+    <Compile Include="Utility\ZipExtractor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DatabaseManager\DatabaseManager.csproj">
+      <Project>{FB7822FD-99AF-46F7-9355-51934D4C6E14}</Project>
+      <Name>DatabaseManager</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
