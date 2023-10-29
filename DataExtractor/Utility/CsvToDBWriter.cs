@@ -1,5 +1,6 @@
 ﻿using DatabaseManager;
 using DatabaseManager.Data;
+using System;
 
 namespace DataExtractor.Utility
 {
@@ -13,14 +14,18 @@ namespace DataExtractor.Utility
             _reader = new DelimitedReader(csvFilePath, containsHeaders: containsHeaders, providedHeaders: providedHeaders);
         }
 
+        public event EventHandler<string> ProgressEvent;
+
         public void ReadAndWrite()
         {
+            ProgressEvent?.Invoke(this, $"Writing records to database.");
             using (var dbContext = new CandleStickDbContext())
             {
                 _writer = new DatabaseWriter(dbContext);
                 _writer.WriteAll(_reader.ReadAll());
                 _reader.Dispose();
             }
+            ProgressEvent?.Invoke(this, $"Records successfully written to database.");
         }
     }
 }

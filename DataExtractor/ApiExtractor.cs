@@ -69,6 +69,7 @@ namespace BinanceDataExtractor
                 return;
 
             var writer = new CsvToDBWriter(csvFilePath, false, Headers);
+            writer.ProgressEvent += ProgressEvent;
             writer.ReadAndWrite();
         }
 
