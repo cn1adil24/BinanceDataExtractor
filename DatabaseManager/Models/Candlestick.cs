@@ -68,5 +68,11 @@ namespace DatabaseManager.Models
         /// Ignore
         /// </summary>
         public int Ignore { get; set; }
+
+        public double? EMA12 { get; set; }
+
+        public double? EMA26 { get; set; }
+
+        public double RSI { get; set; } = 0;
     }
 }
