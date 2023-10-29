@@ -40,7 +40,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DatabaseWriter.cs" />
+    <Compile Include="DbManager.cs" />
     <Compile Include="Data\CandleStickDbContext.cs" />
     <Compile Include="Data\ICandleStickDbContext.cs" />
     <Compile Include="MappingProfiles.cs" />

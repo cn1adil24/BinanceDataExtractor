@@ -20,7 +20,7 @@ namespace UnitTestProject
             var dbSetMock = new Mock<DbSet<Candlestick>>();
             dbContextMock.Setup(x => x.CandleStickData).Returns(dbSetMock.Object);
 
-            var candleStickDataWriter = new DatabaseWriter(dbContextMock.Object);
+            var candleStickDataWriter = new DbManager(dbContextMock.Object);
 
             var record = new Dictionary<string, string>
             {
@@ -64,7 +64,7 @@ namespace UnitTestProject
             var dbSetMock = new Mock<DbSet<Candlestick>>();
             dbContextMock.Setup(x => x.CandleStickData).Returns(dbSetMock.Object);
 
-            var candleStickDataWriter = new DatabaseWriter(dbContextMock.Object);
+            var candleStickDataWriter = new DbManager(dbContextMock.Object);
 
             var invalidRecord = new Dictionary<string, string>
             {

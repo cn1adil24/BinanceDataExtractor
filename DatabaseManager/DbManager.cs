@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 namespace DatabaseManager
 {
-    public class DatabaseWriter
+    public class DbManager
     {
         private readonly ICandleStickDbContext _dbContext;
 
-        public DatabaseWriter(ICandleStickDbContext dbContext)
+        public DbManager(ICandleStickDbContext dbContext)
         {
             _dbContext = dbContext;
         }
